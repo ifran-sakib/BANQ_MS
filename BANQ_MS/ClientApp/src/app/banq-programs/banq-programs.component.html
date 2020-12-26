@@ -1,0 +1,37 @@
+
+<div class="box-shadow">
+
+  <h1 class="display-4 text-center">Banquet App.</h1>
+  <hr>
+  <table class='table table-striped' aria-labelledby="tableLabel">
+    <thead class="thead-light">
+    <th>#Program No.</th>
+    <th>ProgramName</th>
+    <th>Customer</th>
+    <th>ProgramDate</th>
+    <th>Hall</th>
+    <th>NoOfPerson</th>
+    
+    <th>
+      <a class="btn btn-outline-success" routerLink="/banq-program">Create New</a>
+    </th>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of programList">
+        <td (click)="openForEdit(item.id)">{{item.id}}</td>
+        <td (click)="openForEdit(item.id)">{{item.programName}}</td>
+        <td (click)="openForEdit(item.id)">{{item.customer}}</td>
+        <td (click)="openForEdit(item.id)">{{item.programDate}}</td>
+        <td (click)="openForEdit(item.id)">{{item.hall}}</td>
+        <td (click)="openForEdit(item.id)">{{item.noOfPerson}}</td>
+       
+        <td>
+          <a class="btn text-danger" (click)="onOrderDelete(item.id)">Delete</a>
+        </td>
+
+      </tr>
+    </tbody>
+
+  </table>
+</div>

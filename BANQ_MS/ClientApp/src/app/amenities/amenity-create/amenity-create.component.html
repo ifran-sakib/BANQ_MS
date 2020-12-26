@@ -1,0 +1,36 @@
+
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+  <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id" />
+  <div class="form-group">
+    <div class="input-group">
+
+      <input name="amenityHead" #amenityHead="ngModel" [(ngModel)]="service.formData.amenityHead" class="form-control" placeholder="Amenity Name" required />
+    </div>
+
+
+
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-7">
+
+      <div class="input-group">
+
+        <input name="details" #details="ngModel" [(ngModel)]="service.formData.details" class="form-control" placeholder="Description" required />
+      </div>
+
+
+    </div>
+    <div class="form-group col-md-5">
+      <div class="input-group">
+
+        <input type="number" name="cost" #cost="ngModel" [(ngModel)]="service.formData.cost" class="form-control" placeholder="Cost" required />
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <button class="btn-success btn-lg btn-block" type="submit" [disabled]="form.invalid"> Submit</button>
+  </div>
+</form>

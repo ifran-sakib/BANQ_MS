@@ -1,0 +1,246 @@
+
+  <div class="box-shadow">
+    <h1 class="display-4 text-center">Banquet App</h1>
+    <hr>
+
+    <form #form="ngForm" autocomplete="off" *ngIf="service.formData" (submit)="onSubmit(form)">
+
+      <input hidden name="id" #id="ngModel" [(ngModel)]="service.formData.id" class="form-control" />
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>ProgramName.</label>
+            <div class="input-group">
+              <input name="programName" #programName="ngModel" [(ngModel)]="service.formData.programName" class="form-control" [class.is-invalid]="!isValid && service.formData.programName==''"/>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label>No. Of Person</label>
+            <div class="input-group">
+
+              <input name="noOfPerson" #noOfPerson="ngModel" [(ngModel)]="service.formData.noOfPerson" class="form-control" [class.is-invalid]="!isValid && service.formData.noOfPerson==0" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <div class="input-group">
+
+              <input type="date" name="programDate" #programDate="ngModel" [(ngModel)]="service.formData.programDate" class="form-control"  [class.is-invalid]="!isValid && service.formData.programDate==''"/>
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <div class="input-group">
+
+              <input type="date" name="startTime" #startTime="ngModel" [(ngModel)]="service.formData.startTime" class="form-control" />
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Customer</label>
+            <select name="customerId" #customerId="ngModel" [(ngModel)]="service.formData.customerId" class="form-control" >
+              <option value="0">-Select-</option>
+              <option *ngFor="let customer of customerService.list" value="{{customer.id}}">{{customer.customerName}}</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <label>Event Manager</label>
+            <select name="eventMngrId" #eventMngrId="ngModel" [(ngModel)]="service.formData.eventMngrId"  class="form-control" >
+              <option value="0">-Select-</option>
+              <option *ngFor="let event of eventManagerService.list" value="{{event.id}}">{{event.eventOrganizerName}}</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Banquet</label>
+            <select name="banqId" #banqId="ngModel" [(ngModel)]="service.formData.banqId"  class="form-control" (change)="updateInfo($event.target)"  [class.is-invalid]="!isValid && service.formData.banqId==0">
+              <option value="0">-Select-</option>
+              <option *ngFor="let banq of banqService.list" value="{{banq.id}}">{{banq.name}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+
+
+          </div>
+          <div class="form-group">
+
+            <div class="input-group">
+              <span>Minimum Guest : {{minimumGuest}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+
+            <div class="input-group">
+              <span> Maximum Guest: {{maximumGuest}}</span>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+      <table class="table table-borderless">
+
+        <thead class="thead-light">
+        <th>Food</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>
+          <a class="btn btn-sm btn-success text-white" (click)="AddOrEditFoodItem(null,service.formData.id)">Add Food</a>
+        </th>
+        </thead>
+        <tbody>
+          <tr *ngIf="service.foodItem.length == 0" [class.text-danger]="!isValid && service.foodItem.length == 0">
+            <td class="font-italic text-center" colspan="5">
+              No food item selected for  this order
+            </td>
+          </tr>
+          <tr *ngFor="let item of service.foodItem;let i=index;">
+            <td hidden>{{item.foodId}}</td>
+            <td>{{item.foodName}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.total}}</td>
+            <td>
+              <a class="btn btn-sm btn-info text-white" (click)="AddOrEditFoodItem(i,service.formData.id)">Edit</a>
+              <a class="btn btn-sm btn-danger text-white ml-1" (click)="onDeleteFoodItem(item.id,i)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+
+      <table class="table table-borderless">
+
+        <thead class="thead-light">
+        <th>Amenity</th>
+        <th>Cost</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>
+          <a class="btn btn-sm btn-success text-white" (click)="AddOrEditAmenity(null,service.formData.id)">Add Amenity</a>
+        </th>
+        </thead>
+        <tbody>
+          <tr *ngIf="service.amenityItem.length == 0" [class.text-danger]="!isValid && service.amenityItem.length == 0">
+            <td class="font-italic text-center" colspan="5">
+              No Amenity item selected for  this order
+            </td>
+          </tr>
+          <tr *ngFor="let item of service.amenityItem;let i=index;">
+            <td hidden>{{item.amenityId}}</td>
+            <td>{{item.amenityHead}}</td>
+            <td>{{item.cost}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.total}}</td>
+            <td>
+              <a class="btn btn-sm btn-info text-white" (click)="AddOrEditAmenity(i,service.formData.id)">Edit</a>
+              <a class="btn btn-sm btn-danger text-white ml-1" (click)="onDeleteAmenity(item.id,i)">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+
+
+            <label>Hall Rent</label>
+            <div class="input-group">
+
+              <input name="hallRent" #hallRent="ngModel" [(ngModel)]="service.formData.hallRent" class="form-control" readonly />
+
+            </div>
+            <label>Total Food</label>
+            <div class="input-group">
+
+              <input name="foodAmount" #foodAmount="ngModel" [(ngModel)]="service.formData.foodAmount" class="form-control" readonly />
+
+            </div>
+
+
+            <label>Total Amenity</label>
+            <div class="input-group">
+
+              <input name="amenityAmount" #amenityAmount="ngModel" [(ngModel)]="service.formData.amenityAmount" class="form-control" readonly />
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Total Amount</label>
+            <div class="input-group">
+
+              <input name="totalAmount" #totalAmount="ngModel" [(ngModel)]="service.formData.totalAmount" class="form-control" readonly />
+
+            </div>
+            <label>Vat ({{vatPer}} %)</label>
+            <div class="input-group">
+
+              <input name="totalVat" #totalVat="ngModel" [(ngModel)]="service.formData.totalVat" class="form-control" readonly />
+
+            </div>
+            <label>SC ({{scPer}} %)</label>
+            <div class="input-group">
+
+              <input name="totalServiceCharge" #totalServiceCharge="ngModel" [(ngModel)]="service.formData.totalServiceCharge" class="form-control" readonly />
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Total Payable</label>
+            <div class="input-group">
+
+              <input name="totalPayable" #totalPayable="ngModel" [(ngModel)]="service.formData.totalPayable" class="form-control" readonly />
+
+            </div>
+
+
+            <label>Total Paid</label>
+            <div class="input-group">
+
+              <input type="number"  name="totalPaid" #totalPaid="ngModel" [(ngModel)]="service.formData.totalPaid" class="form-control" (keyup)="updateFinalTotal()" [class.is-invalid]="!isValid && service.formData.totalPaid==0" />
+
+            </div>
+
+            <label>Total Due</label>
+            <div class="input-group">
+
+              <input name="dueAmount" #dueAmount="ngModel" [(ngModel)]="service.formData.dueAmount" class="form-control" readonly/>
+
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+    <button type="submit" class="btn btn-dark">Submit </button>
+    <a class="btn btn-outline-dark ml-1" routerLink="/banq-programs">View Booking</a>
+
+
+  </div>
+
+    </form>
+  </div>
+
+

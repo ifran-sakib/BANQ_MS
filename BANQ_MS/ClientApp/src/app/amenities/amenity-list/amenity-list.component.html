@@ -1,0 +1,30 @@
+
+<p *ngIf="!service.amenitylist"><em>Loading...</em></p>
+
+<table class='table table-hover' aria-labelledby="tableLabel" *ngIf="service.amenitylist">
+  <thead>
+    <tr>
+      <th hidden>Id</th>
+      <th>Amenity Name</th>
+    
+      <th>Description</th>
+      <th>Cose</th>
+      <th></th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let amenity of service.amenitylist">
+      <td (click)="populateForm(amenity)" hidden>{{ amenity.id }}</td>
+      <td (click)="populateForm(amenity)">{{ amenity.amenityHead }}</td>
+     
+      <td (click)="populateForm(amenity)">{{ amenity.details }}</td>
+      <td (click)="populateForm(amenity)">{{ amenity.cost }}</td>
+
+      <td>
+        <button class="btn-danger btn-block" (click)="onDelete(amenity.id)" type="button">Delete</button>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
